@@ -1,0 +1,7 @@
+display:
+  - id: screen
+    <<: !include display_base.yaml
+    platform: waveshare_epaper
+    model: 1.54in
+    full_update_every: 30
+    update_interval: 5s

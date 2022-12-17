@@ -1,0 +1,35 @@
+humidity:
+  name: "Sensor Humidity"
+  id: sensor_hum
+temperature:
+  name: "Sensor Temperature"
+  id: sensor_temp
+  filters:
+    - offset: -2
+  on_value:
+    then:
+      - if:
+          condition:
+            lambda: 'return $domoticz_flag && strlen("$domoticz_temp_idx") > 0 && !isnan(x) && !isnan(sensor_hum->state);'
+          then:
+            - mqtt.publish_json:
+                topic: domoticz/in
+                payload: |-
+                  root["idx"] = atoi("$domoticz_temp_idx");
+                  std::string svalue = "";
+                  char buf[50];
+                  sprintf(buf, "%0.1f", x);
+                  svalue += buf;
+                  svalue += ";";
+                  sprintf(buf, "%0.0f", sensor_hum->state);
+                  svalue += buf;
+                  svalue += ";0;";
+                  if (strlen("$domoticz_pressure_idx") > 0) {
+                    float pres = 0;
+                    ${pressure_sensor_prefix} pres = sensor_pres->state;
+                    sprintf(buf, "%0.1f", pres);
+                    svalue += buf;
+                    svalue += ";0";
+                  }
+                  root["svalue"] = svalue;
+update_interval: 10s

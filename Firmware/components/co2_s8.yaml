@@ -1,0 +1,3 @@
+sensor:
+  - platform: senseair
+    <<: !include co2_base.yaml

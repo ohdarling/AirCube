@@ -1,0 +1,16 @@
+uart_id: uartco2
+update_interval: 10s
+co2:
+  name: "CO2 PPM"
+  id: co2ppm
+  on_value:
+    then:
+      - if:
+          condition:
+            lambda: 'return $domoticz_flag && strlen("$domoticz_co2_idx") > 0 && !isnan(x) && x > 300 && x < 5000;'
+          then:
+            - mqtt.publish_json:
+                topic: domoticz/in
+                payload: |-
+                  root["idx"] = atoi("$domoticz_co2_idx");
+                  root["nvalue"] = (int)x;

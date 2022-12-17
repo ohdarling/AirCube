@@ -1,0 +1,4 @@
+sensor:
+  - platform: sht3xd
+    <<: !include temperature_base.yaml
+    address: 0x44

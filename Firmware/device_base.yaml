@@ -1,0 +1,101 @@
+
+esphome:
+  name: aircube-${room_name}
+  on_boot:
+    then:
+      - lambda: |-
+          setCpuFrequencyMhz(80);
+
+esp32:
+  board: nodemcu-32s
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: ""
+  reboot_timeout: 0s
+
+ota:
+  password: ""
+
+captive_portal:
+
+packages:
+  # Graph width and height
+  # For 1.54 240x240 LCD: 240x120
+  # For 1.54 200x200 Eink: 200x100
+  # graphsize: !include custom.yaml
+  # Font size
+  # For 240x240 LCD: 19, 38, 12
+  # For 200x200 Eink: 16, 32, 10
+  # font: !include components/font.yaml
+  sensors: !include sensors.yaml
+  binary_sensors: !include binary_sensors.yaml
+  text_sensors: !include text_sensors.yaml
+  graphs: !include graphs.yaml
+
+
+substitutions:
+  graph_duration: 12h
+  font_name: Arial
+
+globals:
+  - id: draw_graph
+    type: std::function<void(display::DisplayBuffer & it, const char *title, const char *subtitle, graph::Graph *g, const char *gmax, const char *gmin, const char *add_line)>
+    initial_value: |-
+      [&](display::DisplayBuffer & it, const char *title, const char *subtitle, graph::Graph *g, const char *gmax, const char *gmin, const char *add_line) {
+        auto scale = screen_scale->value();
+        it.print(0, 0, ftitle, title);
+        it.print(0, 36*scale, ftitle, subtitle);
+        it.graph(0, 80*scale, g);
+        it.print(2, 79*scale, fsub, gmax);
+        it.print(2, 158*scale, fsub, gmin);
+        it.print(0, 172*scale, fsub, "${graph_duration} ago");
+        it.print(180*scale, 172*scale, fsub, "now");
+        it.print(0, 181*scale, fbody, add_line);
+      }
+
+mqtt:
+  broker: !secret mqtt_broker
+  log_topic:
+    topic: debug
+    level: NONE
+
+web_server:
+  port: 80
+
+spi:
+  clk_pin: 18
+  mosi_pin: 23
+
+i2c:
+  sda: 21
+  scl: 22
+  scan: true
+  id: busiic
+
+uart:
+  - id: uartco2
+    tx_pin: 26
+    rx_pin: 25
+    baud_rate: 9600
+  - id: uartpms
+    tx_pin: 14
+    rx_pin: 27
+    baud_rate: 9600
+
+debug:
+  update_interval: 5s
+
+
+remote_transmitter:
+  - id: ir_sender
+    pin: 13
+    carrier_duty_percent: 50
+  - id: four33_sender
+    pin: 19
+    carrier_duty_percent: 100

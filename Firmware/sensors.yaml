@@ -1,0 +1,91 @@
+sensor:
+  - platform: pmsx003
+    type: $pms_type
+    pm_1_0:
+      name: "PM 1.0"
+      id: pm10
+    pm_2_5:
+      name: "PM 2.5"
+      id: pm25
+      on_value:
+        then:
+          - if:
+              condition:
+                lambda: 'return $domoticz_flag && strlen("$domoticz_pm25_idx") > 0 && !isnan(x);'
+              then:
+                - mqtt.publish_json:
+                    topic: domoticz/in
+                    payload: |-
+                      root["idx"] = atoi("$domoticz_pm25_idx");
+                      root["svalue"] = to_string((int)x);
+    pm_10_0:
+      name: "PM 10"
+      id: pm100
+    formaldehyde:
+      name: "HOCO"
+      id: sensor_hoco
+      on_value:
+        then:
+          - if:
+              condition:
+                lambda: 'return $domoticz_flag && strlen("$domoticz_hoco_idx") > 0 && !isnan(x);'
+              then:
+                - mqtt.publish_json:
+                    topic: domoticz/in
+                    payload: |-
+                      root["idx"] = atoi("$domoticz_hoco_idx");
+                      char buf[50];
+                      sprintf(buf, "%0.3f", x / 1000);
+                      std::string svalue = buf;
+                      root["svalue"] = svalue;
+    uart_id: uartpms
+    update_interval: 30s
+    id: pmssensor
+  - platform: bh1750
+    name: "BH1750 Illuminance"
+    address: 0x23
+    update_interval: 10s
+    id: bh1750lux
+    on_value:
+      then:
+        - if:
+            condition:
+              lambda: 'return $domoticz_flag && strlen("$domoticz_bh1750_idx") > 0 && !isnan(x);'
+            then:
+              - mqtt.publish_json:
+                  topic: domoticz/in
+                  payload: |-
+                    root["idx"] = atoi("$domoticz_bh1750_idx");
+                    root["svalue"] = to_string((int)x);
+  - platform: uptime
+    name: Uptime Sensor
+    id: uptime_sensor
+    update_interval: 60s
+    on_raw_value:
+      then:
+        - text_sensor.template.publish:
+            id: uptime_human
+            state: !lambda |-
+              int seconds = round(id(uptime_sensor).raw_state);
+              int days = seconds / (24 * 3600);
+              seconds = seconds % (24 * 3600);
+              int hours = seconds / 3600;
+              seconds = seconds % 3600;
+              int minutes = seconds /  60;
+              seconds = seconds % 60;
+              return (
+                (days ? to_string(days) + "d " : "") +
+                (hours ? to_string(hours) + "h " : "") +
+                (minutes ? to_string(minutes) + "m " : "") +
+                (to_string(seconds) + "s")
+              ).c_str();
+  - platform: debug
+    free:
+      name: "Heap Free"
+      id: heap_free
+    block:
+      name: "Heap Max Block"
+      id: heap_max_block
+    loop_time:
+      name: "Loop Time"
+      id: loop_time

@@ -1,0 +1,7 @@
+sensor:
+  - platform: bme280
+    pressure:
+      name: "Sensor Pressure"
+      id: sensor_pres
+    <<: !include temperature_base.yaml
+    address: 0x76

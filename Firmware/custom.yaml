@@ -1,0 +1,19 @@
+substitutions:
+  room_name: 'portable'
+  wifi_ip: ''
+  pressure_sensor_prefix: ''
+  pms_type: 'PMSX003'
+  domoticz_flag: 'false'
+  domoticz_bh1750_idx: ''
+  domoticz_pm25_idx: ''
+  domoticz_co2_idx: ''
+  domoticz_temp_idx: ''
+  domoticz_pressure_idx: ''
+  domoticz_hoco_idx: ''
+
+packages:
+  sensor_co2: !include components/co2_mhz19.yaml
+  sensor_temp: !include components/temperature_bme280.yaml
+  display: !include components/display_st7789v.yaml
+  graphsize: !include components/graphsize_st7789v.yaml
+  font: !include components/font_st7789v.yaml

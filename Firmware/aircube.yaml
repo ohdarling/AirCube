@@ -1,0 +1,13 @@
+# AirCube Configuration
+
+# Graph width and height
+# For 1.54 240x240 LCD: 240x120
+# For 1.54 200x200 Eink: 200x100
+# Font size
+# For 240x240 LCD: 19, 38, 12
+# For 200x200 Eink: 16, 32, 10
+
+packages:
+  wifi: !include wifi.yaml
+  device_base: !include device_base.yaml
+  custom: !include custom.yaml

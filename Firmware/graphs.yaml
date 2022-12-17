@@ -1,0 +1,55 @@
+graph:
+  - id: graph_pm25
+    duration: $graph_duration
+    width: $graph_width
+    height: $graph_height
+    min_value: 0
+    max_value: 200
+    y_grid: 50
+    traces:
+      - sensor: pm25
+        line_type: SOLID
+        line_thickness: 2
+  - id: graph_temp
+    duration: $graph_duration
+    width: $graph_width
+    height: $graph_height
+    border: false
+    min_range: 10
+    traces:
+      - sensor: sensor_temp
+        line_type: SOLID
+        line_thickness: 2
+  - id: graph_hum
+    duration: $graph_duration
+    width: $graph_width
+    height: $graph_height
+    min_value: 0
+    max_value: 100
+    y_grid: 25
+    traces:
+      - sensor: sensor_hum
+        line_type: SOLID
+        line_thickness: 1
+  - id: graph_lux
+    duration: $graph_duration
+    width: $graph_width
+    height: $graph_height
+    min_value: 0
+    max_value: 1000
+    y_grid: 250
+    traces:
+      - sensor: bh1750lux
+        line_type: SOLID
+        line_thickness: 2
+  - id: graph_co2
+    duration: $graph_duration
+    width: $graph_width
+    height: $graph_height
+    min_value: 400
+    max_value: 2000
+    y_grid: 400
+    traces:
+      - sensor: co2ppm
+        line_type: SOLID
+        line_thickness: 2

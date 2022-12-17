@@ -1,0 +1,15 @@
+font:
+  - file: 'fonts/${font_name}.ttf'
+    id: fbody
+    size: 19
+  - file: 'fonts/${font_name}.ttf'
+    id: ftitle
+    size: 38
+  - file: 'fonts/${font_name}.ttf'
+    id: fsub
+    size: 12
+
+globals:
+  - id: screen_scale
+    type: float
+    initial_value: '1.2'

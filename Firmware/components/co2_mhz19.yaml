@@ -1,0 +1,4 @@
+sensor:
+  - platform: mhz19
+    <<: !include co2_base.yaml
+    automatic_baseline_calibration: false

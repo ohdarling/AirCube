@@ -1,0 +1,2 @@
+"Title","Name","IP","Display","Temperature","CO2","TemperatureIdx","PressureIdx","CO2Idx","PM25Idx","LuxIdx","HOCOIdx"
+"客厅","livingroom","192.168.1.100","st7789v","bme280","mhz19","","","","","",""

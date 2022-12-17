@@ -1,0 +1,7 @@
+display:
+  - id: screen
+    <<: !include display_base.yaml
+    platform: st7789v
+    model: Adafruit Funhouse 240x240
+    eightbitcolor: true
+    update_interval: 5s

@@ -1,0 +1,37 @@
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: 32
+      mode:
+        input: true
+        pullup: true
+    name: "Left Button"
+    filters:
+      - delayed_on: 10ms
+    on_click:
+      - min_length: 20ms
+        max_length: 500ms
+        then:
+          # - lambda: |-
+          #     id(current_page) = (id(current_page) - 1 + id(total_pages)) % id(total_pages);
+          - display.page.show_previous: screen
+          - component.update: screen
+  - platform: gpio
+    pin:
+      number: 33
+      mode:
+        input: true
+        pullup: true
+    name: "Right Button"
+    filters:
+      - delayed_on: 10ms
+    on_click:
+      - min_length: 20ms
+        max_length: 500ms
+        then:
+          # - lambda: |-
+          #     id(current_page) = (id(current_page) + 1 + id(total_pages)) % id(total_pages);
+          - display.page.show_next: screen
+          - component.update: screen
+
