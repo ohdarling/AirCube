@@ -35,7 +35,7 @@ PCB 尺寸为 6cm x 6cm，四角安装孔直径为 2mm。
 
 * PCB 底面为传感器及 NodeMCU 安装位置，目前版本预留了 IR、433MHz 以及电源接头，但并未使用。
 
-<img src="Images/aircube-pcb-top.png?raw=true" alt="aircube-pcb-top" style="zoom:50%;" /><img src="Images/aircube-pcb-bottom.png?raw=true" alt="aircube-pcb-bottom" style="zoom:50%;" />
+<img src="Images/aircube-pcb-top.png?raw=true" alt="aircube-pcb-top" style="width:300px;" /><img src="Images/aircube-pcb-bottom.png?raw=true" alt="aircube-pcb-bottom" style="width:300px;" />
 
 ## 元件选型
 
