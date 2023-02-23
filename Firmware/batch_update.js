@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const { execSync } = require('child_process');
 const fs = require('fs');
 const { exit } = require('process');
@@ -34,9 +36,9 @@ const rows = parse_csv(csv_content);
 let update_devices = rows;
 
 if (process.argv.length > 2) {
-    const single_dev = process.argv[2];
+    const devs = process.argv.slice(2);
     update_devices = rows.filter(obj => {
-        return obj.Name == single_dev;
+        return devs.indexOf(obj.Name) > -1;
     });
     if (update_devices.length == 0) {
         console.log('Device not found:', single_dev);
@@ -46,11 +48,14 @@ if (process.argv.length > 2) {
 
 console.log('Updating', update_devices.length, 'devices ...');
 
+const use_ota = process.env['OTA'] ?? 'true';
+const action = process.env['ACTION'] ?? 'upload';
+
 update_devices.forEach(obj => {
     console.log('>>>>>>>>>>>>>>>>>>>>>>>>>');
     console.log('Updating', obj.Title, '...');
     const domoticz_enable = obj.TemperatureIdx || obj.CO2Idx || obj.PM25Idx || obj.LuxIdx || obj.HOCOIdx || obj.PressureIdx;
-    const cmd = `OTA=true DOMOTICZ=${domoticz_enable ? 'enable' : 'disable'} ROOM=${obj.Name} IP=${obj.IP} DP=${obj.Display} CO2=${obj.CO2} TEMP=${obj.Temperature} IDX_BH1750=${obj.LuxIdx} IDX_PM25=${obj.PM25Idx} IDX_CO2=${obj.CO2Idx} IDX_TEMP=${obj.TemperatureIdx} IDX_PRESSURE=${obj.PressureIdx} IDX_HOCO=${obj.HOCOIdx} ./build.sh upload`
+    const cmd = `OTA=${use_ota} DOMOTICZ=${domoticz_enable ? 'enable' : 'disable'} ROOM=${obj.Name} IP=${obj.IP} DP=${obj.Display} CO2=${obj.CO2} TEMP=${obj.Temperature} IDX_BH1750=${obj.LuxIdx} IDX_PM25=${obj.PM25Idx} IDX_CO2=${obj.CO2Idx} IDX_TEMP=${obj.TemperatureIdx} IDX_PRESSURE=${obj.PressureIdx} IDX_HOCO=${obj.HOCOIdx} ./build.sh ${action}`
     console.log(cmd);
     execSync(cmd, { stdio: 'inherit' });
 });

@@ -20,6 +20,7 @@ pages:
       draw_part(1, 0, "Humidity", "%0.0f%%", id(sensor_hum).state, "");
       draw_part(0, 1, "CO2", "%0.0f", id(co2ppm).state, "ppm");
       draw_part(1, 1, "PM2.5", "%0.0f", id(pm25).state, "ug/m3");
+
   - id: page_temp
     lambda: |-
       char subt[50] = "", add_line[50] = "";
@@ -28,22 +29,26 @@ pages:
       id(draw_graph)(it, "Temp", subt, id(graph_hum), "100%", "0%", add_line);
       auto scale = id(screen_scale);
       it.graph(0, 80*scale, id(graph_temp));
+
   - id: page_co2
     lambda: |-
       char subt[50];
       snprintf(subt, sizeof(subt), "%0.0f ppm", id(co2ppm).state);
       id(draw_graph)(it, "CO2", subt, id(graph_co2), "2000ppm", "400ppm", "");
+
   - id: page_pm25
     lambda: |-
       char subt[50], add_line[50];
       snprintf(subt, sizeof(subt), "%0.0f ug/m3", id(pm25).state);
       snprintf(add_line, sizeof(add_line), "PM1: %0.0f, PM10: %0.0f", id(pm10).state, id(pm100).state);
       id(draw_graph)(it, "PM2.5", subt, id(graph_pm25), "200ug/m3", "0", add_line);
+
   - id: page_lux
     lambda: |-
       char subt[50];
       snprintf(subt, sizeof(subt), "%0.0f lux", id(bh1750lux).state);
       id(draw_graph)(it, "Lux", subt, id(graph_lux), "1000 lux", "0", "");
+
   - id: page_info
     lambda: |-
       it.print(0, 0, id(ftitle), "AirCube");
@@ -52,8 +57,9 @@ pages:
       y = 40;
       PRINT_LINE("Room: ${room_name}");
       PRINT_LINE("Uptime: %s", id(uptime_human).state.c_str());
-      PRINT_LINE("SSID: %s", id(wifi_ssid).state.c_str());
+      PRINT_LINE("Wi-Fi: %s", id(wifi_ssid).state.c_str());
+      PRINT_LINE("Wi-Fi Signal: %0.0f%%", id(wifi_signal_percent).state);
       PRINT_LINE("IP: %s", id(wifi_ip).state.c_str());
       PRINT_LINE("Heap Free: %0.0f bytes", id(heap_free).state);
-      PRINT_LINE("Heap Max Block: %0.0f bytes", id(heap_max_block).state);
+      // PRINT_LINE("Heap Max Block: %0.0f bytes", id(heap_max_block).state);
       PRINT_LINE("Loop Time: %0.0fms", id(loop_time).state);

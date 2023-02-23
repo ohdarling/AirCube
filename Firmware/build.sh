@@ -14,6 +14,11 @@ if [ "$DEV_CO2" == "" ]; then
     DEV_CO2=mhz19
 fi
 
+CO2ACT='mhz19.calibrate_zero'
+if [ "$DEV_CO2" == "s8" ]; then
+    CO2ACT='senseair.background_calibration'
+fi
+
 DEV_TEMP=$TEMP
 if [ "$TEMP" == "" ]; then
     DEV_TEMP=bme280
@@ -25,7 +30,7 @@ if [ "$DEV_TEMP" != "bme280" ]; then
 fi
 
 if [ "$IP" == "" ]; then
-    IP=""
+    IP="localhost"
 fi
 
 DEV_DOMOTICZ=disable
@@ -56,6 +61,7 @@ substitutions:
   wifi_ip: '$IP'
   pressure_sensor_prefix: '$PRES_PREFIX'
   pms_type: '$PMS_TYPE'
+  co2_action: '$CO2ACT'
   domoticz_flag: '$DOMOTICZ_FLAG'
   domoticz_bh1750_idx: '$IDX_BH1750'
   domoticz_pm25_idx: '$IDX_PM25'
@@ -72,18 +78,34 @@ packages:
   font: !include components/font_${DEV_DP}.yaml
 EOF
 
-esphome compile $CONFIG
-COMPILE_RET=$?
+
+ACTION=$1
+if [ "$ACTION" == "" ]; then
+    ACTION=upload
+fi
+
+if [ "$ACTION" == "build" ]; then
+    ACTION=compile
+fi
+
+if [ "$ACTION" == "upload" ]; then
+    esphome compile $CONFIG
+    COMPILE_RET=$?
+else
+    COMPILE_RET=0
+fi
 
 if [ $COMPILE_RET == "0" ]; then
     echo Build done.
 
-    if [ "$1" == "upload" ]; then
-        if [ "$IP" != "" ] && [ "$OTA" == "true" ]; then
-            esphome upload $CONFIG
-        else
-            esphome upload $CONFIG
-        fi
+    if [ "$IP" != "" ] && [ "$OTA" == "true" ] && [ "$ACTION" != "compile" ]; then
+        esphome $ACTION $CONFIG --device $IP
+    else
+        esphome $ACTION $CONFIG
     fi
+
+else
+
+    echo !!!!!Build failed!!!!!
 
 fi

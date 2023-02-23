@@ -5,6 +5,14 @@ esphome:
     then:
       - lambda: |-
           setCpuFrequencyMhz(80);
+  includes:
+    - custom_components/bme280.hpp
+  libraries:
+    - "Wire"
+    - "SPI"
+    - "Adafruit Unified Sensor"
+    - "Adafruit BusIO"
+    - "Adafruit BME280 Library"
 
 esp32:
   board: nodemcu-32s
@@ -37,6 +45,7 @@ packages:
   binary_sensors: !include binary_sensors.yaml
   text_sensors: !include text_sensors.yaml
   graphs: !include graphs.yaml
+  buttons: !include buttons.yaml
 
 
 substitutions:

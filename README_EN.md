@@ -9,11 +9,20 @@ An open source environmental state monitoring device that monitors various envir
 ## Features
 
 * The overview page allows you to visualize the current values of various environmental data, such as current temperature, humidity, PM 2.5 and CO2 concentration.
+* Switch between pages with left and right touch button.
 - Historical trend data for each data item, by recording the last 12 hours of data and showing the trend of environmental data in a graph.
 - Detailed data of specific sensors, for example, Pantone PMS5003 can detect PM 1.0, PM 2.5 and PM 10 at the same time, which cannot be fully displayed in the overview page, so it can be displayed in the details page.
 - The device information interface can display basic information such as the name of current device, Wi-Fi connection, operation time, etc.
 - Data reporting capability, you can report data to Domoticz or Home Assistant via MQTT.
 - Batch deployment capability, deploy device firmware in batch by script.
+
+## Changelogs
+
+* 2023.02.24
+  * After comparing with Xiaomi Temp&Humdity Sensor, BME280 temperature calibration -2, humidity +10
+  * Add reboot function, long press right button for more than 5 seconds, it will reboot AirCube
+  - Add CO2 sensor calibration function, press and hold the left button for more than 5 seconds to turn on MH-Z19 or SenseAir S8 calibration function, please leave the AirCube outside and running for more than 20 minutes before calibration.
+  - Use custom components to read BME280 data and avoid ESPHome initialization failures
 
 ## Components
 

@@ -1,8 +1,9 @@
 substitutions:
-  room_name: 'portable'
-  wifi_ip: ''
+  room_name: ''
+  wifi_ip: 'localhost'
   pressure_sensor_prefix: ''
   pms_type: 'PMSX003'
+  co2_action: 'mhz19.calibrate_zero'
   domoticz_flag: 'false'
   domoticz_bh1750_idx: ''
   domoticz_pm25_idx: ''

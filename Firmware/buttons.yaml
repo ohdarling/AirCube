@@ -1,0 +1,13 @@
+button:
+  - platform: restart
+    name: "Restart AirCube"
+  - platform: template
+    name: "Prev Page Button"
+    on_press:
+      - display.page.show_previous: screen
+      - component.update: screen
+  - platform: template
+    name: "Next Page Button"
+    on_press:
+      - display.page.show_next: screen
+      - component.update: screen

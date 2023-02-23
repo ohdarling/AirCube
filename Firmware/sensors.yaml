@@ -41,6 +41,7 @@ sensor:
     uart_id: uartpms
     update_interval: 30s
     id: pmssensor
+
   - platform: bh1750
     name: "BH1750 Illuminance"
     address: 0x23
@@ -57,6 +58,7 @@ sensor:
                   payload: |-
                     root["idx"] = atoi("$domoticz_bh1750_idx");
                     root["svalue"] = to_string((int)x);
+
   - platform: uptime
     name: Uptime Sensor
     id: uptime_sensor
@@ -79,6 +81,7 @@ sensor:
                 (minutes ? to_string(minutes) + "m " : "") +
                 (to_string(seconds) + "s")
               ).c_str();
+
   - platform: debug
     free:
       name: "Heap Free"
@@ -89,3 +92,18 @@ sensor:
     loop_time:
       name: "Loop Time"
       id: loop_time
+
+  - platform: wifi_signal # Reports the WiFi signal strength/RSSI in dB
+    name: "WiFi Signal dB"
+    id: wifi_signal_db
+    update_interval: 60s
+    entity_category: "diagnostic"
+
+  - platform: copy # Reports the WiFi signal strength in %
+    source_id: wifi_signal_db
+    id: wifi_signal_percent
+    name: "WiFi Signal Percent"
+    filters:
+      - lambda: return min(max(2 * (x + 100.0), 0.0), 100.0);
+    unit_of_measurement: "Signal %"
+    entity_category: "diagnostic"

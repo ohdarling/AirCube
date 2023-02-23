@@ -13,10 +13,12 @@ binary_sensor:
       - min_length: 20ms
         max_length: 500ms
         then:
-          # - lambda: |-
-          #     id(current_page) = (id(current_page) - 1 + id(total_pages)) % id(total_pages);
           - display.page.show_previous: screen
           - component.update: screen
+      - min_length: 5s
+        max_length: 10s
+        then:
+          - ${co2_action}: co2sensor
   - platform: gpio
     pin:
       number: 33
@@ -30,8 +32,10 @@ binary_sensor:
       - min_length: 20ms
         max_length: 500ms
         then:
-          # - lambda: |-
-          #     id(current_page) = (id(current_page) + 1 + id(total_pages)) % id(total_pages);
           - display.page.show_next: screen
           - component.update: screen
-
+      - min_length: 5s
+        max_length: 10s
+        then:
+          - lambda: |-
+              esp_restart();
