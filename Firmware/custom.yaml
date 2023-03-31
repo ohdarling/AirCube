@@ -1,5 +1,5 @@
 substitutions:
-  room_name: ''
+  room_name: 'portable'
   wifi_ip: 'localhost'
   pressure_sensor_prefix: ''
   pms_type: 'PMSX003'

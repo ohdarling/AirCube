@@ -18,7 +18,12 @@ An open source environmental state monitoring device that monitors various envir
 
 ## Changelogs
 
+* 2023.03.31
+  
+  * Disable automatic restart when MQTT cannot connect to prevent AirCube from restarting regularly due to an unconfigured MQTT Broker
+  
 * 2023.02.24
+
   * After comparing with Xiaomi Temp&Humdity Sensor, BME280 temperature calibration -2, humidity +10
   * Add reboot function, long press right button for more than 5 seconds, it will reboot AirCube
   - Add CO2 sensor calibration function, press and hold the left button for more than 5 seconds to turn on MH-Z19 or SenseAir S8 calibration function, please leave the AirCube outside and running for more than 20 minutes before calibration.
