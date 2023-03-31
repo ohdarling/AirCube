@@ -69,6 +69,7 @@ globals:
       }
 
 mqtt:
+  reboot_timeout: 0s
   broker: !secret mqtt_broker
   log_topic:
     topic: debug
