@@ -1,5 +1,5 @@
 sensor:
-  - platform: bme280
+  - platform: bme280_i2c
     pressure:
       name: "Sensor Pressure"
       id: sensor_pres

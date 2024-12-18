@@ -28,7 +28,8 @@ api:
   reboot_timeout: 0s
 
 ota:
-  password: ""
+  - platform: esphome
+    password: ""
 
 captive_portal:
 
@@ -54,9 +55,9 @@ substitutions:
 
 globals:
   - id: draw_graph
-    type: std::function<void(display::DisplayBuffer & it, const char *title, const char *subtitle, graph::Graph *g, const char *gmax, const char *gmin, const char *add_line)>
+    type: std::function<void(esphome::display::Display & it, const char *title, const char *subtitle, graph::Graph *g, const char *gmax, const char *gmin, const char *add_line)>
     initial_value: |-
-      [&](display::DisplayBuffer & it, const char *title, const char *subtitle, graph::Graph *g, const char *gmax, const char *gmin, const char *add_line) {
+      [&](esphome::display::Display & it, const char *title, const char *subtitle, graph::Graph *g, const char *gmax, const char *gmin, const char *add_line) {
         auto scale = screen_scale->value();
         it.print(0, 0, ftitle, title);
         it.print(0, 36*scale, ftitle, subtitle);
